@@ -1,0 +1,75 @@
+nSimulationsPerTree:
+  - 0
+  #- 20
+  - 80
+  - 200
+  - 600
+  #- 1000
+  - 2000
+nTrialsPerPoint: 1000
+dim: 3
+linear: false
+spacecraftMass: 1
+spacecraftMoment: 4
+sigmaW:
+  - 0.2
+  - 0.2
+  - 0.01
+sigmaV: 0.4
+discretization: 0.125
+dt: 1
+nExperimentSteps: 15
+saveTrajectory: true
+providedFailure: Null
+maxNumActions: 20
+rngKeysOffset: 0
+actionRNGSeed: 0
+diagnosisThreshold: 1.9
+nMaxComponentFailures: 3
+initialState:
+  - 0
+  - 0
+  - 0
+  - -1
+  - 0
+  - 0
+  - 0
+  - 0
+solverFList:
+  - SFEAST
+estimator: marginalizedFilter
+physicalStateSubEstimator: ekf
+reward: squareSumFailureBeliefReward
+safetyMethod: safetyConstrainedReward
+penalty: 0
+safetyFunctionEvaluation: chebyshev
+allowableFailureChance: 0.1
+safetyFunction: worstCase
+safetyConstraints:
+  - - circularObstacleConstraint
+    - - 10 #Radius (Currently obstacle + s/c radius)
+      - - 0 #center x
+        - -20 #center y
+  - - linearSafeZoneConstraint #Of form Ax - b < 0, need all to be satisfied. Here is is a 60x60 rect around origin
+    - - - - 1 #First row of A matrix, should be external normals
+          - 0
+        - - -1 #next row of A matrix
+          - 0
+        - - 0
+          - 1
+        - - 0
+          - -1
+      - - 25 #First offset
+        - 25
+        - 25
+        - 25
+saveDirectoryPath: figureS3/binaryRandomCrashCourse
+clobber: false
+nMaxPossibleFailures: 40
+saveTreeFlag: false
+multiprocessingFlag: 10
+plottingExtent: 30
+resolution: 400
+hardwareEmulationFlag: false
+filterDivergenceHandlingMethod: acceptDiagnosisBeforeNan
+discountFactor: 1

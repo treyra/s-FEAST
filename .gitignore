@@ -1,0 +1,38 @@
+SavedData/*
+*/SavedData/*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+installNoiseTesting.sh
+*.swp
+failurePy/utility/CalibrationData/*
+*checkpoint.ipynb
+failurePy/utility/test.ipynb
+failurePy/visualization/.ipynb_checkpoints/FTC Paper Visualization-checkpoint.ipynb
+
+failurePy/visualization/*.pdf
+failurePy.egg-info/*
+dFailurePy.egg-info/*
+.config/config.yml
+.config/hosts.yml
+failurePy/.DS_Store
+failurePy/.config/config.yml
+failurePy/.config/hosts.yml
+SavedData/*
+*/SavedData/*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+installNoiseTesting.sh
+*.swp
+failurePy/utility/CalibrationData/*
+*checkpoint.ipynb
+failurePy/utility/test.ipynb
+failurePy/visualization/.ipynb_checkpoints/FTC Paper Visualization-checkpoint.ipynb
+
+failurePy/visualization/*.pdf
+failurePy.egg-info/*
+dFailurePy.egg-info/*
+*.DS_Store

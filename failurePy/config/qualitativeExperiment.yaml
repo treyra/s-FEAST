@@ -1,0 +1,122 @@
+nSimulationsPerTree:
+  #- 0
+  #- 20
+  #- 50
+  #- 80
+  #- 100
+  - 200
+  #- 400
+  #- 600
+  #- 1000
+  #- 2000
+  ##- 4000
+nTrialsPerPoint: 1
+
+dim: 3
+linear: False #This means we just take our simple linear model
+spacecraftMass: 1
+spacecraftMoment: 4
+sigmaW:
+  - 0.2
+  - 0.2
+  - 0.01
+sigmaV: .4
+discretization: .125
+dt: 1
+
+nExperimentSteps: 15
+saveTrajectory: True #Think we'll just always have this as true
+#providedFailure: Null
+providedFailure:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 0 #Double +y failure
+  - 0
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+
+maxNumActions: 20
+rngKeysOffset: 1
+actionRNGSeed: 0 # For now actions are selected randomly, but same for every trial
+
+#Not letting it break early to enforce safety over full experiment
+diagnosisThreshold: 1.1
+nMaxComponentFailures: 3
+
+#initialState: #Roughly what I'm trying to do in sim (note, we're going to have to define a coordinate system in s/c sim so comet is consistently placed)
+#  - 4
+#  - -0.5
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+
+initialState:
+  - 0
+  - 0
+  - 0 #Giving 10 time steps
+  - -2
+  - 0
+  - 0
+  - 0
+  - 0
+
+solverFList:
+  - SFEAST
+
+estimator: marginalizedFilter
+physicalStateSubEstimator: ekf #Required sub filter if using marginal filter
+
+reward: squareSumFailureBeliefReward
+
+safetyMethod: safetyConstrainedReward #safetyOff #safetyPenalizedReward #safetyConstrainedReward
+penalty: 0
+safetyFunctionEvaluation: chebyshev #probabilisticAlpha #Testing non-proven safety
+allowableFailureChance: .90
+safetyFunction: worstCase
+safetyConstraints: #Should be nested list, constraint, and parameters
+  - - circularObstacleConstraint
+    - - 10 #Radius (Currently obstacle + s/c radius)
+      - - 0 #center x
+        - -20 #center y
+  - - linearSafeZoneConstraint #Of form Ax - b < 0, need all to be satisfied. Here is is a 60x60 rect around origin
+    - - - - 1 #First row of A matrix, should be external normals
+          - 0
+        - - -1 #next row of A matrix
+          - 0
+        - - 0
+          - 1
+        - - 0
+          - -1
+      - - 25 #First offset
+        - 25
+        - 25
+        - 25
+
+saveDirectoryPath: safetyOnVisualization
+clobber: True
+
+nMaxPossibleFailures: 40
+
+saveTreeFlag: True
+
+#0 or false to disable
+multiprocessingFlag: False
+
+#Plotting config
+plottingExtent: 30
+resolution: 400
+
+#Test flag to allow for different behavior when emulating hardware (lowers real noise vs. expected)
+hardwareEmulationFlag: False
+discountFactor: 1

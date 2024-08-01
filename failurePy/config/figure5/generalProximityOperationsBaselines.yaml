@@ -1,0 +1,151 @@
+#Yaml file to test the linear model experiment parameter loading
+
+nSimulationsPerTree:
+  #- 0
+  #- 20
+  ##- 50
+  #- 80
+  ##- 100
+  #- 200
+  ##- 400
+  #- 600
+  #- 1000
+  #- 2000
+  ##- 4000
+  - 1
+nTrialsPerPoint: 1000
+
+dim: 3
+linear: False #This means we just take our simple linear model
+spacecraftMass: 1
+spacecraftMoment: 4
+sigmaW:
+  - 0.2
+  - 0.2
+  - 0.01
+sigmaV: .4
+discretization: .125
+dt: 1
+
+#numWheels: 2
+#providedFailure: #Note 0 is good now, 1 bad
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+#  - 0.8 #Double +y failure, mostly failed
+#  - 0.8
+#  - 0
+#  - 0 #End of actuator Degradation
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+#  - .1 #Double -y bias
+#  - .1
+#  - 0
+#  - 0
+#  - 0
+#  - 0 #End of actuator bias
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+#  - 0 #End of sensor degradation
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+
+maxNumActions: 20
+rngKeysOffset: 0
+actionRNGSeed: 0 # For now actions are selected randomly, but same for every trial
+
+#Not letting it break early to enforce safety over full experiment
+diagnosisThreshold: 1.1
+nMaxComponentFailures: 3
+
+#initialState: #Roughly what I'm trying to do in sim (note, we're going to have to define a coordinate system in s/c sim so comet is consistently placed)
+#  - 4
+#  - -0.5
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+
+#initialState:
+#  - 0
+#  - 0
+#  - 0 #Giving 10 time steps
+#  - -1
+#  - 0
+#  - 0
+#  - 0
+#  - 0
+
+nExperimentSteps: 15 #Didn't see any noticeable changes with more time steps, so less to run faster
+
+saveTrajectory: True #Think we'll just always have this as true
+
+solverFList:
+  #- POMCPMF
+  - cbf
+  - greedy
+  - scp
+
+estimator: marginalizedFilter
+physicalStateSubEstimator: ekf #Required sub filter if using marginal filter
+reward: squareSumFailureBeliefReward
+
+safetyMethod: safetyConstrainedReward #safetyOff #safetyPenalizedReward #safetyConstrainedReward
+penalty: 0
+safetyFunctionEvaluation: chebyshev #probabilisticAlpha #Testing non-proven safety
+allowableFailureChance: .10
+safetyFunction: worstCase
+safetyConstraints: #Should be nested list, constraint, and parameters
+  - - circularObstacleConstraint
+    - - 10 #Radius (Currently obstacle + s/c radius)
+      - - 0 #center x
+        - -20 #center y
+  #- - circularSafeZoneConstraint
+  #  - - 30 #Radius (Currently safe zone - s/c radius)
+  #    - - 0 #center x
+  #      - 0 #center y
+  #Square constraint, normal matrix, offset
+  - - linearSafeZoneConstraint #Of form Ax - b < 0, need all to be satisfied. Here is is a 60x60 rect around origin
+    - - - - 1 #First row of A matrix, should be external normals
+          - 0
+        - - -1 #next row of A matrix
+          - 0
+        - - 0
+          - 1
+        - - 0
+          - -1
+      - - 25 #First offset
+        - 25
+        - 25
+        - 25
+
+saveDirectoryPath: figure5/generalProximityOperationsBaselines
+clobber: False
+
+nMaxPossibleFailures: 40
+
+#Plotting config
+plottingExtent: 30
+resolution: 100
+
+generalFaultFlag: True
+
+particleResampleType: gaussian
+particleResampleCheck: never
+particleInitializationFunction: biasedRandomRedundant #Biased to 1/2 chance to be nominal, biases repeated x5
+
+saveTreeFlag: False
+
+multiprocessingFlag: 28
