@@ -1,0 +1,46 @@
+name: Pylint
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        python-version: ["3.8"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      #Current changes from default are: camelCase (preference), line length 100 -> 200 (wide monitors and preference),
+      #Regex to make variable names 3-40 characters, gives hint
+      #Removed i,j,k,ex,Run,_ as good names. Added dt and ax, as they are widely used and universal in python.
+      #import-error disabled (since running on github we assume the user will set up their environment)
+      #too-many-arguments disabled for now (consider refactoring later to have more compact parameter passing, currently think it is fine)
+      #Same with too-many-function-args
+      #too-many-locals disabled for now (consider refactoring later along with less arguments, as the lead to each other. Currently think it is fine)
+      #ignored-argument-names used as a hack for dummy arguments for now.
+      - name: Install dependencies and configure
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+          pylint --generate-rcfile > ~/.pylintrc
+          sed -i 's/snake_case/camelCase/g' ~/.pylintrc
+          sed -i 's/max-line-length=100/max-line-length=200/g' ~/.pylintrc
+          sed -i 's/good-names-rgxs=/good-names-rgxs=[a-z_][a-z0-9_]{2,40}/g' ~/.pylintrc
+          sed -i 's/include-naming-hint=no/include-naming-hint=yes/g' ~/.pylintrc
+          sed -i 's/good-names=i,/good-names=dt,ax,iii,/g' ~/.pylintrc
+          sed -i 's/           j,/           jjj,/g' ~/.pylintrc
+          sed -i 's/           k,/           kkk,/g' ~/.pylintrc
+          sed -i 's/           ex,/           exx,/g' ~/.pylintrc
+          sed -i 's/           Run,/           run,/g' ~/.pylintrc
+          sed -i 's/           _/           iii/g' ~/.pylintrc
+          sed -i 's/           j,/           jjj,/g' ~/.pylintrc
+          sed -i 's/bad-names=/bad-names=i,j,k,/g' ~/.pylintrc
+          sed -i 's/disable=/disable=import-error,too-many-arguments,too-many-function-args,too-many-locals,duplicate-code,/g' ~/.pylintrc
+          sed -i 's/ignored-argument-names=_.*|^ignored_|^unused_/ignored-argument-names=_.*|^ignored_|^unused_|dummy/g' ~/.pylintrc
+      - name: Analyzing the code with pylint
+        run: |
+          pylint $(git ls-files '*.py')

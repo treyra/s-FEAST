@@ -1,0 +1,19 @@
+{
+    "python.analysis.diagnosticSeverityOverrides": { //Disable rerportMissingImports, as VS Code seems to miss local imports (and because using VS code in windows and conda env in WSL seems to be cause missed imports too)
+        "reportMissingImports": "none",
+        "reportMissingModuleSource": "none",
+        "todohighlight.keywords": [
+            "DEBUG:",
+        ],
+    },
+    "cSpell.words": [
+        "argnames",
+        "edgecolor",
+        "fejekf",
+        "fejkalman",
+        "fontsize""horizontalalignment",
+        "Labbe",
+        "pcov"
+    ],
+    "python.REPL.enableREPLSmartSend": false
+}

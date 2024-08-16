@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Pipeline",
+            "type": "python",
+            "request": "launch",
+            "program": "failurePy/pipeline.py",
+            "justMyCode": false,
+            //"cwd": "failurePy",
+            "args": [
+                //"--configFilePath",
+                "./failurePy/config/safetyNonLinearModelTest4.yaml"
+            ]
+        }
+        //{
+        //    "name": "Python: Remove Tree Data",
+        //    "type": "python",
+        //    "request": "launch",
+        //    "program": "utility/savedTreeRemover.py",
+        //    "justMyCode": false,
+        //    "cwd": "failurePy"
+        //}
+    ]
+}
