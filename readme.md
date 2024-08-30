@@ -8,7 +8,7 @@ Soon-Jo Chung[^corresponding]
 [^maintainer]: code base maintainer - jragan@caltech.edu
 [^corresponding]: corresponding author - sjchung@caltech.edu
 
-The failurePy codebase is provided as part of the upcoming Science Robotics research article "Safely Diagnosing Failures Through Intelligent Action: Online Tree-based Planning for Spacecraft Fault Estimation and Collision Avoidance". It contains code for simulating spacecraft models subject various faults and algorithms for diagnosing them. Our safe Fault Estimation via Active Sensing Tree search (s-FEAST) algorithm provides a method to actively estimate these faults, even when subject to safety constraints that will be violated shortly.
+The failurePy codebase is provided as part of our Science Robotics research article "[Online tree-based planning for active spacecraft fault estimation and collision avoidance](https://www.science.org/doi/10.1126/scirobotics.adn4722)". It contains code for simulating spacecraft models subject various faults and algorithms for diagnosing them. Our safe Fault Estimation via Active Sensing Tree search (s-FEAST) algorithm provides a method to actively estimate these faults, even when subject to safety constraints that will be violated shortly.
 
 ## Dependencies
 
@@ -76,4 +76,17 @@ We have made an overview video that can be seen here:
 
 ## Citation
 
-The data and code here are for personal and educational use only and provided without warranty; written permission from the authors is required for further use. Please cite our work when the article is published.
+The data and code here are for personal and educational use only and provided without warranty; written permission from the authors is required for further use. Please cite our work as follows:
+
+> @article{
+doi:10.1126/scirobotics.adn4722,
+author = {James Ragan  and Benjamin Riviere  and Fred Y. Hadaegh  and Soon-Jo Chung },
+title = {Online tree-based planning for active spacecraft fault estimation and collision avoidance},
+journal = {Science Robotics},
+volume = {9},
+number = {93},
+pages = {eadn4722},
+year = {2024},
+doi = {10.1126/scirobotics.adn4722},
+URL = {https://www.science.org/doi/abs/10.1126/scirobotics.adn4722},
+eprint = {https://www.science.org/doi/pdf/10.1126/scirobotics.adn4722}}
